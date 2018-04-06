@@ -8,11 +8,13 @@
     <link rel="stylesheet" href="asset/style.css">
 </head>
 <body>
-    <div class="row">
-        <?php echo $this->render('menu.phtml'); ?>
-    </div>
+    <div class="container">
+        <div class="row">
+            <?php echo $this->render('menu.phtml'); ?>
+        </div>
 
-    <?php echo $this->render($this->template); ?>
+        <?php echo $this->render($this->template); ?>
+    </div>
 
 
     <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->config['api_key']; ?>&libraries=places&callback=initMap" async defer></script>
