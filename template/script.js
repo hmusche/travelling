@@ -62,10 +62,7 @@ App.prototype = {
     getPlaces: function() {
         var self = this;
         new Request.JSON({
-            url: 'api.php',
-            data: {
-                'method': 'getAll'
-            },
+            url: '<?php echo $this->host; ?>api/getAll/',
             onSuccess: function(response) {
                 if (response.status && response.status == 'ok') {
                     response.data.each(function(place) {
@@ -78,9 +75,8 @@ App.prototype = {
 
     savePlaces: function() {
         new Request.JSON({
-            url: 'api.php',
+            url: '<?php echo $this->host; ?>api/setPlaces/',
             data: {
-                'method': 'setPlaces',
                 'places': this.places
             },
             onSuccess: function(response) {

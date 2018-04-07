@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /~hmu/travelling/
+
+RewriteCond %{REQUEST_URI} !/asset/
+RewriteRule ^.*$ index.php [L]

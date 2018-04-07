@@ -1,12 +1,19 @@
 <?php
 
-require_once "_init.php";
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-$view = View::getInstance();
-$view->assign([
-    'template' => 'default.phtml',
-    'config'   => include('config.php')
-]);
+define('ROOT_DIR', __DIR__);
 
+spl_autoload_register(function($class) {
+    $class = implode('/', array_map('lcfirst', explode('_', $class)));
+    
+    include 'class/' . $class . '.php';
+});
 
-echo $view->render('main.phtml');
+require_once "vendor/autoload.php";
+
+Config::set(require 'config.php');
+
+Application::run();
