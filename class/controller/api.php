@@ -12,6 +12,16 @@ class Controller_Api extends Controller_Abstract {
         $this->_return['data'] = $this->_places->getAll();
     }
 
+    public function savePlace() {
+        $place = Http::get('params')['place'];
+
+        if ($place) {
+            $this->_places->add($place);
+        } else {
+            $this->_return['status'] = 'error';
+        }
+    }
+
     public function preDispatch() {
         header('Content-Type: application/json');
         $this->_places = new Place();

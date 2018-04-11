@@ -8,7 +8,7 @@ class Place {
     }
 
     public function getAll() {
-        return iterator_to_array($this->_coll->find());
+        return iterator_to_array($this->_coll->find([], ['sort' => ['position' => 1]]));
     }
 
     public function add($place) {

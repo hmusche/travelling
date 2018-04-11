@@ -3,8 +3,7 @@ function initMap() {
     window.map.init();
 }
 
-var App = function() {
-}
+var App = function() {}
 
 App.prototype = {
     init: function() {
@@ -53,9 +52,8 @@ App.prototype = {
                 self.map.setZoom(17);  // Why 17? Because it looks good.
             }
 
-            self.addPlace(place);
-
-            self.savePlaces();
+            var pos = self.addPlace(place);
+            self.savePlace(place, pos);
         });
     },
 
@@ -73,11 +71,26 @@ App.prototype = {
         }).send();
     },
 
-    savePlaces: function() {
+    savePlace: function(place, pos) {
+        place.position = pos;
+        place.location = {
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng()
+        }
+
+        delete place.address_components;
+        delete place.adr_address;
+        delete place.geometry;
+        delete place.icon;
+        delete place.photos;
+        delete place.reference;
+        delete place.scope;
+        delete place.types;
+
         new Request.JSON({
-            url: '<?php echo $this->host; ?>api/setPlaces/',
+            url: '<?php echo $this->host; ?>api/savePlace/',
             data: {
-                'places': this.places
+                'place': place
             },
             onSuccess: function(response) {
                 console.log(response.status);
@@ -103,11 +116,24 @@ App.prototype = {
 
         marker.setVisible(true);
 
-        new Element('li', {
+        var li = new Element('li', {
             'class': 'list-group-item place',
-            'data-place-id': place.place_id,
+            'data-place-id': place.place_id
+        });
+
+        new Element('span', {
+            'class': 'btn btn-primary btn-sm',
+            'html': '<i class="material-icons md-18">delete</i>'
+        }).inject(li);
+
+        new Element('span', {
+            'class': 'place-name',
             'text': place.name
-        }).inject(this.placeList, 'bottom');
+        }).inject(li);
+
+        li.inject(this.placeList, 'bottom');
+
+        return (this.placeList.getElements('li').length);
     },
 
     getPlaceFromId: function(placeId) {
