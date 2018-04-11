@@ -1,0 +1,11 @@
+<?php
+
+return [
+    'host' => 'http://HOSTNAME/WITH_FULL_PATH',
+    
+    'api_key' => 'YOUR_MAPS_API_KEY_HERE',
+
+    'mongodb' => [
+        'name' => 'travelling'
+    ]
+];
